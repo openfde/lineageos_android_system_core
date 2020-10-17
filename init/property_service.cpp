@@ -132,7 +132,8 @@ void StopSendingMessages() {
 }
 
 bool CanReadProperty(const std::string& source_context, const std::string& name) {
-    const char* target_context = nullptr;
+    // Disabled in Waydroid
+    /*const char* target_context = nullptr;
     property_info_area->GetPropertyInfo(name.c_str(), &target_context, nullptr);
 
     PropertyAuditData audit_data;
@@ -143,12 +144,14 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
     audit_data.cr = &cr;
 
     return selinux_check_access(source_context.c_str(), target_context, "file", "read",
-                                &audit_data) == 0;
+                                &audit_data) == 0;*/
+    return true;
 }
 
 static bool CheckMacPerms(const std::string& name, const char* target_context,
                           const char* source_context, const ucred& cr) {
-    if (!target_context || !source_context) {
+    // Disabled in Waydroid
+    /*if (!target_context || !source_context) {
         return false;
     }
 
@@ -160,7 +163,8 @@ static bool CheckMacPerms(const std::string& name, const char* target_context,
     bool has_access = (selinux_check_access(source_context, target_context, "property_service",
                                             "set", &audit_data) == 0);
 
-    return has_access;
+    return has_access;*/
+    return true;
 }
 
 static uint32_t PropertySet(const std::string& name, const std::string& value, std::string* error) {
@@ -551,11 +555,12 @@ static void handle_property_set_fd() {
         prop_name[PROP_NAME_MAX-1] = 0;
         prop_value[PROP_VALUE_MAX-1] = 0;
 
-        std::string source_context;
-        if (!socket.GetSourceContext(&source_context)) {
+        std::string source_context = "";
+        // Disabled in Waydroid
+        /*if (!socket.GetSourceContext(&source_context)) {
             PLOG(ERROR) << "Unable to set property '" << prop_name << "': getpeercon() failed";
             return;
-        }
+        }*/
 
         const auto& cr = socket.cred();
         std::string error;
@@ -580,11 +585,12 @@ static void handle_property_set_fd() {
         }
 
         std::string source_context;
-        if (!socket.GetSourceContext(&source_context)) {
+        // Disabled in Waydroid
+        /*if (!socket.GetSourceContext(&source_context)) {
             PLOG(ERROR) << "Unable to set property '" << name << "': getpeercon() failed";
             socket.SendUint32(PROP_ERROR_PERMISSION_DENIED);
             return;
-        }
+        }*/
 
         const auto& cr = socket.cred();
         std::string error;

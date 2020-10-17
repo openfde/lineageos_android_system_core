@@ -90,6 +90,7 @@ cc_defaults {
         "-Wall",
         "-Wextra",
         "-Wno-unused-parameter",
+        "-Wno-unused-function",
         "-Werror",
         "-Wthread-safety",
         "-DALLOW_FIRST_STAGE_CONSOLE=0",
@@ -335,6 +336,7 @@ cc_binary {
         "-Wall",
         "-Wextra",
         "-Wno-unused-parameter",
+        "-Wno-unused-function",
         "-Werror",
     ],
     static_libs: [

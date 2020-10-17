@@ -242,9 +242,10 @@ void Service::SetProcessAttributesAndCaps() {
     }
 
     if (!seclabel_.empty()) {
-        if (setexeccon(seclabel_.c_str()) < 0) {
+        // Disabled in Waydroid
+        /*if (setexeccon(seclabel_.c_str()) < 0) {
             PLOG(FATAL) << "cannot setexeccon('" << seclabel_ << "') for " << name_;
-        }
+        }*/
     }
 
     if (capabilities_) {
@@ -450,7 +451,8 @@ Result<void> Service::Start() {
     }
 
     std::string scon;
-    if (!seclabel_.empty()) {
+    // Disabled in Waydroid
+    /*if (!seclabel_.empty()) {
         scon = seclabel_;
     } else {
         auto result = ComputeContextFromExecutable(args_[0]);
@@ -458,7 +460,7 @@ Result<void> Service::Start() {
             return result.error();
         }
         scon = *result;
-    }
+    }*/
 
     if (!AreRuntimeApexesReady() && !pre_apexd_) {
         // If this service is started before the Runtime and ART APEXes get
