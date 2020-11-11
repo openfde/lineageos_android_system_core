@@ -448,6 +448,10 @@ on late-init
     trigger early-boot
     trigger boot
 
+on fs
+    # Do fake mount_all for Waydroid
+    mount_all /dev/null
+
 on early-fs
     # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
     start vold
