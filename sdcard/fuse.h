@@ -176,6 +176,7 @@ struct fuse_global {
     struct fuse* fuse_default;
     struct fuse* fuse_read;
     struct fuse* fuse_write;
+    struct fuse* fuse_full;
 };
 
 /* Single FUSE mount */

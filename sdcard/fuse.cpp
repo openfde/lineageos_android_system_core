@@ -843,6 +843,9 @@ static int handle_unlink(struct fuse* fuse, struct fuse_handler* handler,
         if (fuse != fuse->global->fuse_write) {
             fuse_notify_delete(fuse->global->fuse_write, parent_node->nid, child_node->nid, name);
         }
+        if (fuse != fuse->global->fuse_full) {
+            fuse_notify_delete(fuse->global->fuse_full, parent_node->nid, child_node->nid, name);
+        }
     }
     return 0;
 }
