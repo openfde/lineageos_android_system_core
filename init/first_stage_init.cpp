@@ -95,7 +95,9 @@ void FreeRamdisk(DIR* dir, dev_t dev) {
 }
 
 bool ForceNormalBoot(const std::string& cmdline) {
-    return cmdline.find("androidboot.force_normal_boot=1") != std::string::npos;
+    // Disabled for Halium
+    return false;
+    /*return cmdline.find("androidboot.force_normal_boot=1") != std::string::npos;*/
 }
 
 }  // namespace
