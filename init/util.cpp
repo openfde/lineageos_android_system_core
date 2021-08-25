@@ -66,6 +66,10 @@ void (*trigger_shutdown)(const std::string& command) = nullptr;
 // DecodeUid() - decodes and returns the given string, which can be either the
 // numeric or name representation, into the integer uid or gid.
 Result<uid_t> DecodeUid(const std::string& name) {
+    if (name == "host") {
+        std::string uid = android::base::GetProperty("waydroid.host.uid", "1000");
+        return static_cast<uid_t>(strtoul(uid.c_str(), 0, 0));
+    }
     if (isalpha(name[0])) {
         passwd* pwd = getpwnam(name.c_str());
         if (!pwd) return ErrnoError() << "getpwnam failed";
