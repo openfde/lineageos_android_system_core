@@ -783,17 +783,18 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
 
-    # sys.memfd_use set to false by default, which keeps it disabled
-    # until it is confirmed that apps and vendor processes don't make
-    # IOCTLs on ashmem fds any more.
-    setprop sys.use_memfd false
-
     # Set fscklog permission
     chown root system /dev/fscklogs/log
     chmod 0770 /dev/fscklogs/log
 
     # Enable FUSE by default
     setprop persist.sys.fuse true
+
+# sys.memfd_use set to false by default, which keeps it disabled
+# until it is confirmed that apps and vendor processes don't make
+# IOCTLs on ashmem fds any more.
+on post-fs-data && property:sys.use_memfd=""
+    setprop sys.use_memfd false
 
 # Switch between sdcardfs and FUSE depending on persist property
 # TODO: Move this to ro property before launch because FDE devices
