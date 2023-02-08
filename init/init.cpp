@@ -699,6 +699,9 @@ int SecondStageMain(int argc, char** argv) {
     InitKernelLogging(argv);
     LOG(INFO) << "init second stage started!";
 
+    // Waydroid should not interrupt the host from sleeping
+    cap_drop_bound(CAP_WAKE_ALARM);
+
     // Init should not crash because of a dependence on any other process, therefore we ignore
     // SIGPIPE and handle EPIPE at the call site directly.  Note that setting a signal to SIG_IGN
     // is inherited across exec, but custom signal handlers are not.  Since we do not want to
