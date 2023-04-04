@@ -325,8 +325,10 @@ int ueventd_main(int argc, char** argv) {
     // Restore prio before main loop
     setpriority(PRIO_PROCESS, 0, 0);
     uevent_listener.Poll([&uevent_handlers](const Uevent& uevent) {
-        for (auto& uevent_handler : uevent_handlers) {
-            uevent_handler->HandleUevent(uevent);
+        if (android::base::GetBoolProperty("persist.waydroid.uevent", false)) {
+            for (auto& uevent_handler : uevent_handlers) {
+                uevent_handler->HandleUevent(uevent);
+            }
         }
         return ListenerAction::kContinue;
     });
