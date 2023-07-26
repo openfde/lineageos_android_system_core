@@ -63,6 +63,11 @@
 static const char* root_seclabel = nullptr;
 
 static bool should_drop_privileges() {
+    // Always dropping privileges in Waydroid because the daemon will interact with unprivileged users
+    if (true) {
+        return true;
+    }
+
     // The properties that affect `adb root` and `adb unroot` are ro.secure and
     // ro.debuggable. In this context the names don't make the expected behavior
     // particularly obvious.

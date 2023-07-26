@@ -34,6 +34,13 @@
 #include "adb_unique_fd.h"
 
 void restart_root_service(unique_fd fd) {
+    // Running ADBD as root is not safe in Waydroid, since it allows an unprivileged user to get an actual root shell (however, with restrictions enabled by LXC) with no way for admin to stop.
+    // There are other ways to perform privileged tasks, for "waydroid shell" subcommand to Magisk, that require either root or initial privileged setup
+    if (true) {
+        WriteFdExactly(fd.get(), "not available in Waydroid\n");
+        return;
+    }
+
     if (getuid() == 0) {
         WriteFdExactly(fd.get(), "adbd is already running as root\n");
         return;
