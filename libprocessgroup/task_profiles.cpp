@@ -197,7 +197,7 @@ bool SetCgroupAction::AddTidToCgroup(int tid, int fd) {
     if (TEMP_FAILURE_RETRY(write(fd, value.c_str(), value.length())) < 0) {
         // If the thread is in the process of exiting, don't flag an error
         if (errno != ESRCH) {
-            PLOG(ERROR) << "AddTidToCgroup failed to write '" << value << "'; fd=" << fd;
+            //PLOG(ERROR) << "AddTidToCgroup failed to write '" << value << "'; fd=" << fd;
             return false;
         }
     }
@@ -213,7 +213,7 @@ bool SetCgroupAction::ExecuteForProcess(uid_t uid, pid_t pid) const {
         return false;
     }
     if (!AddTidToCgroup(pid, tmp_fd)) {
-        LOG(ERROR) << "Failed to add task into cgroup";
+        //LOG(ERROR) << "Failed to add task into cgroup";
         return false;
     }
 
@@ -225,7 +225,7 @@ bool SetCgroupAction::ExecuteForTask(int tid) const {
     if (IsFdValid()) {
         // fd is cached, reuse it
         if (!AddTidToCgroup(tid, fd_)) {
-            LOG(ERROR) << "Failed to add task into cgroup";
+            //LOG(ERROR) << "Failed to add task into cgroup";
             return false;
         }
         return true;
@@ -250,7 +250,7 @@ bool SetCgroupAction::ExecuteForTask(int tid) const {
         return false;
     }
     if (!AddTidToCgroup(tid, tmp_fd)) {
-        LOG(ERROR) << "Failed to add task into cgroup";
+        //LOG(ERROR) << "Failed to add task into cgroup";
         return false;
     }
 
@@ -269,7 +269,7 @@ bool ApplyProfileAction::ExecuteForProcess(uid_t uid, pid_t pid) const {
 bool ApplyProfileAction::ExecuteForTask(int tid) const {
     for (const auto& profile : profiles_) {
         if (!profile->ExecuteForTask(tid)) {
-            PLOG(WARNING) << "ExecuteForTask failed for aggregate profile";
+            //PLOG(WARNING) << "ExecuteForTask failed for aggregate profile";
         }
     }
     return true;
