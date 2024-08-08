@@ -86,6 +86,7 @@ LOCAL_POST_INSTALL_CMD := mkdir -p $(addprefix $(TARGET_ROOT_OUT)/, \
     ln -sf /storage/self/primary $(TARGET_ROOT_OUT)/sdcard
 
 LOCAL_POST_INSTALL_CMD += ; mkdir -p $(TARGET_ROOT_OUT)/volumes
+LOCAL_POST_INSTALL_CMD += ; mkdir -p $(TARGET_ROOT_OUT)/sockets
 ifdef BOARD_USES_VENDORIMAGE
   LOCAL_POST_INSTALL_CMD += ; mkdir -p $(TARGET_ROOT_OUT)/vendor
 else
