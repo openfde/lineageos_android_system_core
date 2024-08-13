@@ -1017,7 +1017,7 @@ static void ExportKernelBootProps() {
         { "ro.boot.mode",       "ro.bootmode",   "unknown", },
         { "ro.boot.baseband",   "ro.baseband",   "unknown", },
         { "ro.boot.bootloader", "ro.bootloader", "unknown", },
-        { "ro.boot.hardware",   "ro.hardware",   "unknown", },
+        { "ro.boot.hardware",   "ro.hardware",   "qcom", },
         { "ro.boot.revision",   "ro.revision",   "0", },
             // clang-format on
     };
