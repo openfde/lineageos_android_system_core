@@ -267,7 +267,8 @@ int FirstStageMain(int argc, char** argv) {
         for (const auto& [error_string, error_errno] : errors) {
             LOG(ERROR) << error_string << " " << strerror(error_errno);
         }
-        LOG(FATAL) << "Init encountered errors starting first stage, aborting";
+	//not to aborting when encountered errors
+        //LOG(FATAL) << "Init encountered errors starting first stage, aborting";
     }
 
     LOG(INFO) << "init first stage started!";
