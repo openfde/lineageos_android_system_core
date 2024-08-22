@@ -244,7 +244,8 @@ int wait_for_file(const char* filename, std::chrono::nanoseconds timeout) {
 
 void ImportKernelCmdline(const std::function<void(const std::string&, const std::string&)>& fn) {
     std::string cmdline;
-    android::base::ReadFileToString("/proc/cmdline", &cmdline);
+    android::base::ReadFileToString("/proc/self/cmdline", &cmdline);//hacked
+    std::replace(cmdline.begin(), cmdline.end(), '\0', ' ');//hacked
 
     for (const auto& entry : android::base::Split(android::base::Trim(cmdline), " ")) {
         std::vector<std::string> pieces = android::base::Split(entry, "=");
