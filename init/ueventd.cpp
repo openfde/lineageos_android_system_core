@@ -269,7 +269,7 @@ void ColdBoot::WaitForSubProcesses() {
 void ColdBoot::Run() {
     android::base::Timer cold_boot_timer;
 
-    RegenerateUevents();
+    //RegenerateUevents();
 
     if (enable_parallel_restorecon_) {
         if (parallel_restorecon_queue_.empty()) {
@@ -388,8 +388,10 @@ int ueventd_main(int argc, char** argv) {
     // Restore prio before main loop
     setpriority(PRIO_PROCESS, 0, 0);
     uevent_listener.Poll([&uevent_handlers](const Uevent& uevent) {
-        for (auto& uevent_handler : uevent_handlers) {
-            uevent_handler->HandleUevent(uevent);
+        if (android::base::GetBoolProperty("persist.openfde.uevent", false)) {
+            for (auto& uevent_handler : uevent_handlers) {
+                uevent_handler->HandleUevent(uevent);
+            }
         }
         return ListenerAction::kContinue;
     });

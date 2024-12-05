@@ -154,7 +154,8 @@ bool GetKernelCmdlineFromString(const std::string& cmdline, const std::string& k
 
 void ImportKernelCmdline(const std::function<void(std::string, std::string)>& fn) {
     std::string cmdline;
-    android::base::ReadFileToString("/proc/cmdline", &cmdline);
+    android::base::ReadFileToString("/proc/self/cmdline", &cmdline); // HACKED
+    std::replace(cmdline.begin(), cmdline.end(), '\0', ' '); // HACKED
     ImportKernelCmdlineFromString(android::base::Trim(cmdline), fn);
 }
 

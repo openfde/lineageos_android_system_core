@@ -261,7 +261,7 @@ on init
     chmod 0755 /dev/binderfs
 
     # Mount fusectl
-    mount fusectl none /sys/fs/fuse/connections
+    #mount fusectl none /sys/fs/fuse/connections
 
     symlink /dev/binderfs/binder /dev/binder
     symlink /dev/binderfs/hwbinder /dev/hwbinder
@@ -563,6 +563,10 @@ on late-init
     trigger early-boot
     trigger boot
 
+on fs
+    # Do fake mount_all
+    mount_all /dev/null
+
 on early-fs
     # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
     start vold
@@ -572,7 +576,7 @@ on post-fs
 
     # Once everything is setup, no need to modify /.
     # The bind+remount combination allows this to work in containers.
-    mount rootfs rootfs / remount bind ro nodev
+    #mount rootfs rootfs / remount bind ro nodev
 
     # Mount default storage into root namespace
     mount none /mnt/user/0 /storage bind rec
