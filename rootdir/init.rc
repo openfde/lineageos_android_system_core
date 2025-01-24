@@ -96,7 +96,7 @@ on early-init
     mount tmpfs tmpfs /tmp
     restorecon /tmp
     chown shell shell /tmp
-    chmod 0771 /tmp
+    chmod 0777 /tmp
 
 on init
     sysclktz 0
