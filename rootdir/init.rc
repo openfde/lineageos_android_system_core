@@ -1065,11 +1065,6 @@ on post-fs-data
     # completed and apexd.status becomes "ready".
     exec_start apexd-snapshotde
 
-    # sys.memfd_use set to false by default, which keeps it disabled
-    # until it is confirmed that apps and vendor processes don't make
-    # IOCTLs on ashmem fds any more.
-    setprop sys.use_memfd false
-
     # Set fscklog permission
     chown root system /dev/fscklogs/log
     chmod 0770 /dev/fscklogs/log
@@ -1079,6 +1074,12 @@ on post-fs-data
 
     # Update dm-verity state and set partition.*.verified properties.
     verity_update_state
+
+    # sys.memfd_use set to false by default, which keeps it disabled
+    # until it is confirmed that apps and vendor processes don't make
+    # IOCTLs on ashmem fds any more.
+on post-fs-data && property:sys.use_memfd=""
+    setprop sys.use_memfd false
 
 # It is recommended to put unnecessary data/ initialization from post-fs-data
 # to start-zygote in device's init.rc to unblock zygote start.
