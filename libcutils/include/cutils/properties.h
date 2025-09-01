@@ -35,6 +35,9 @@ extern "C" {
 //
 // See <android-base/properties.h> for better API.
 //
+#ifndef __ANDROID__
+#define PROP_NAME_MAX   32
+#endif
 
 #define PROPERTY_KEY_MAX PROP_NAME_MAX
 #define PROPERTY_VALUE_MAX PROP_VALUE_MAX
