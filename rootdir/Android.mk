@@ -104,6 +104,8 @@ LOCAL_POST_INSTALL_CMD := mkdir -p $(addprefix $(TARGET_ROOT_OUT)/, \
     ln -sfn /sys/kernel/debug $(TARGET_ROOT_OUT)/d; \
     ln -sf /storage/self/primary $(TARGET_ROOT_OUT)/sdcard
 
+LOCAL_POST_INSTALL_CMD += ; mkdir -p $(TARGET_ROOT_OUT)/tmpx11
+
 ALL_ROOTDIR_SYMLINKS := \
   $(TARGET_ROOT_OUT)/bin \
   $(TARGET_ROOT_OUT)/etc \
