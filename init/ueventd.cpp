@@ -330,6 +330,19 @@ int ueventd_main(int argc, char** argv) {
                 uevent_handler->HandleUevent(uevent);
             }
         }
+        if (!uevent.action.compare("add") && (!uevent.subsystem.compare("video4linux")
+            || (uevent.path.find("video") != std::string::npos))) {
+            size_t last_slash = uevent.path.find_last_of('/');
+            if (last_slash != std::string::npos && last_slash + 1 < uevent.path.length()) {
+                std::string dev_file = "/dev/camera" + uevent.path.substr(last_slash);
+                if (access(dev_file.c_str(), F_OK) == 0) {
+                    usleep(100000);
+                    if (chmod(dev_file.c_str(), 0777) != 0) {
+                        LOG(ERROR) << "chmod(" << dev_file << ", " << "0777" << ") failed";
+                    }
+                }
+            }
+        }
         return ListenerAction::kContinue;
     });
 
