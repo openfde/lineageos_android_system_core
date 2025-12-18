@@ -26,6 +26,7 @@
 #include <sys/types.h>
 #include <sys/utsname.h>
 #include <unistd.h>
+#include <android-base/strings.h>
 
 #include <chrono>
 #include <filesystem>
@@ -554,12 +555,22 @@ int FirstStageMain(int argc, char** argv) {
            1);
 
     const char* path = "/system/bin/init";
-    const char* args[] = {path, "second_stage", nullptr};
+    std::vector<const char *> args = {path, "second_stage"};
+    std::string cl;
+    android::base::ReadFileToString("/proc/self/cmdline", &cl);
+    std::replace(cl.begin(), cl.end(), '\0', ' ');
+    int i = 0;
+    for (const auto& entry : android::base::Split(android::base::Trim(cl), " ")) {
+        if (i++ == 0) continue; // ignore first arg '/init'
+        args.push_back(entry.c_str());
+    }
+    args.push_back(nullptr);
+
     auto fd = open("/dev/kmsg", O_WRONLY | O_CLOEXEC);
     dup2(fd, STDOUT_FILENO);
     dup2(fd, STDERR_FILENO);
     close(fd);
-    execv(path, const_cast<char**>(args));
+    execv(path, const_cast<char**>(args.data()));
 
     // execv() only returns if an error happened, in which case we
     // panic and never fall through this conditional.
