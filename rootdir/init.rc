@@ -1363,3 +1363,16 @@ on property:persist.device_config.mglru_native.lru_gen_config=core_and_nonleaf_y
   write /sys/kernel/mm/lru_gen/enabled 5
 on property:persist.device_config.mglru_native.lru_gen_config=all
   write /sys/kernel/mm/lru_gen/enabled 7
+
+service boot_perfetto /system/bin/perfetto -c /data/local/tmp/boot_config.pbtxt --txt -o /data/misc/perfetto-traces/boot.perfetto-trace
+    class late_start
+    user root
+    group root shell
+    oneshot
+    disabled # 初始状态禁用，由属性触发
+
+# 当系统核心准备就绪，但尚未完全进入桌面时触发
+on property:sys.boot_completed=0
+    # 确保在 permissive 模式下运行以避免权限干扰
+    write /sys/fs/selinux/enforce 0
+    start boot_perfetto
