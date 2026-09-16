@@ -135,6 +135,9 @@ ifdef BOARD_USES_METADATA_PARTITION
   LOCAL_POST_INSTALL_CMD += ; mkdir -p $(TARGET_ROOT_OUT)/metadata
 endif
 
+LOCAL_POST_INSTALL_CMD += ; ln -sf /usr/lib $(TARGET_ROOT_OUT)/lib
+LOCAL_POST_INSTALL_CMD += ; ln -sf /usr/lib64 $(TARGET_ROOT_OUT)/lib64
+
 # For /odm partition.
 LOCAL_POST_INSTALL_CMD += ; mkdir -p $(TARGET_ROOT_OUT)/odm
 # For Treble Generic System Image (GSI), system-as-root GSI needs to work on
